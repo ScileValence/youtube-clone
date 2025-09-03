@@ -4,7 +4,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/YOUR_USERNAME/YOUR_REPO.git'
+                git branch: 'main',
+                    url: 'https://github.com/ScileValence/youtube-clone.git',
+                    credentialsId: 'github-creds'
             }
         }
 
@@ -22,7 +24,7 @@ pipeline {
                     // Stop old container if running
                     sh 'docker rm -f youtube-clone || true'
 
-                    // Run new container on port 9090 (to avoid Jenkins conflict on 8080)
+                    // Run new container on port 9090 (since Jenkins uses 8080)
                     sh "docker run -d -p 9090:80 --name youtube-clone youtube-clone:${BUILD_NUMBER}"
                 }
             }
